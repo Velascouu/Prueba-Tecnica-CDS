@@ -1,14 +1,28 @@
 // Módulo de la aplicación AngularJS
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['ngRoute'])
+.config(function($routeProvider) {
+  $routeProvider
+    .when('/login', {
+      templateUrl: './login.html',
+      controller: 'LoginController'
+    })
+    .when('/inicio', {
+      templateUrl: './inicio.html',
+      controller: 'InicioController'
+    })
+    .otherwise({
+      redirectTo: '/login'
+    });
+});
 
 // Controlador AngularJS
-app.controller('LoginController', ['$scope', function($scope) {
+app.controller('LoginController', ['$scope', '$http', function($scope, $http) {
   var vm = this;
 
   // Datos de inicio de sesión
   vm.credentials = {
-    username: '',
-    password: ''
+    username: $scope.username,
+    password: $scope.password
   };
 
   // Flag para mostrar/ocultar la contraseña
@@ -19,26 +33,47 @@ app.controller('LoginController', ['$scope', function($scope) {
     vm.showPassword = !vm.showPassword;
   };
 
-  // Función para realizar la verificación de inicio de sesión
+  // Función para realizar la solicitud POST de inicio de sesión
   vm.login = function() {
-    // Comparación con el JSON de usuarios
-    var users = [
-      { username: 'usuario1', password: 'contrasena1' },
-      { username: 'usuario2', password: 'contrasena2' },
-      { username: 'usuario3', password: 'contrasena3' }
-    ];
+    $http.post('http://localhost:3000/login/user', vm.credentials)
+      .then(function(response) {
+        // Realizar acciones después de iniciar sesión exitosamente
+        //alert("Logeado");
+        console.log(response);
+        if(response.data.success){
+          /*const jwt = require('jsonwebtoken');
 
-    var foundUser = users.find(function(user) {
-      return user.username === vm.credentials.username && user.password === vm.credentials.password;
-    });
+          // Datos del usuario
+          const usuario = response.data;
 
-    if (foundUser) {
-      // Usuario y contraseña correctos
-      alert('Inicio de sesión exitoso');
-      // Realizar acciones adicionales, como redireccionar a otra página
-    } else {
-      // Usuario o contraseña incorrectos
-      vm.loginError = 'Usuario o contraseña incorrectos';
-    }
+          // Clave secreta para firmar el token (debe mantenerse segura)
+          const claveSecreta = 'clave-secreta-del-servidor';
+
+          // Opciones y configuraciones del JWT
+          const opciones = {
+            expiresIn: '1h', // Fecha de expiración de 1 hora
+            algorithm: 'HS256', // Algoritmo de firma
+          };
+
+          // Generar el JWT
+          const token = jwt.sign(usuario, claveSecreta, opciones);
+
+          // Almacenar el token en el almacenamiento local (por ejemplo, en una cookie)
+          localStorage.setItem('weatherAPP', token);*/
+
+          alert("Logeado");
+        }else{
+          
+        }
+    
+      })
+      .catch(function(error) {
+        // Manejar errores de inicio de sesión
+        console.log('Error de inicio de sesión:', error.status, error.statusText);
+        vm.loginError = 'Error al iniciar sesión. Por favor, verifica tus credenciales.';
+      });
   };
 }]);
+
+
+app.controller('MainPage', [])

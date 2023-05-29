@@ -10,6 +10,9 @@
         "id": "2",
         "user": "Velasco",
         "role": "Admin",
-        "pass": "password2"
+        "pass": "password2",
+        "favs": [
+            
+        ]
     }]
 }

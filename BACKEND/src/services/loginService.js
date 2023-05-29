@@ -10,7 +10,13 @@ const getAllUsers = () => {
     return allUsers;
 };
 
+const postUser = (user) => { 
+    const usuario = User.postUser(user);
+    return usuario;
+};
+
 module.exports = {
     getAllUsers,
-    getUser
+    getUser,
+    postUser
 };

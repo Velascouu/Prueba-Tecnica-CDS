@@ -4,6 +4,7 @@ const loginController = require("../controllers/loginController");
 
 router
     .get('/user/:user', loginController.getUser)
-    .get('/allUsers', loginController.getAllUsers);
+    .get('/allUsers', loginController.getAllUsers)
+    .post('/user', loginController.logUser);
 
 module.exports = router;
