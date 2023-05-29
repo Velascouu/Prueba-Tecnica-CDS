@@ -1,6 +1,6 @@
 // Módulo de la aplicación AngularJS
-var app = angular.module('myApp', ['ngRoute'])
-.config(function($routeProvider) {
+var app = angular.module('myApp', [/*'ngRoute'*/]);
+/*.config(function($routeProvider) {
   $routeProvider
     .when('/login', {
       templateUrl: './login.html',
@@ -13,7 +13,9 @@ var app = angular.module('myApp', ['ngRoute'])
     .otherwise({
       redirectTo: '/login'
     });
-});
+});*/
+
+
 
 // Controlador AngularJS
 app.controller('LoginController', ['$scope', '$http', function($scope, $http) {
@@ -41,27 +43,10 @@ app.controller('LoginController', ['$scope', '$http', function($scope, $http) {
         //alert("Logeado");
         console.log(response);
         if(response.data.success){
-          /*const jwt = require('jsonwebtoken');
-
-          // Datos del usuario
-          const usuario = response.data;
-
-          // Clave secreta para firmar el token (debe mantenerse segura)
-          const claveSecreta = 'clave-secreta-del-servidor';
-
-          // Opciones y configuraciones del JWT
-          const opciones = {
-            expiresIn: '1h', // Fecha de expiración de 1 hora
-            algorithm: 'HS256', // Algoritmo de firma
-          };
-
-          // Generar el JWT
-          const token = jwt.sign(usuario, claveSecreta, opciones);
-
-          // Almacenar el token en el almacenamiento local (por ejemplo, en una cookie)
-          localStorage.setItem('weatherAPP', token);*/
-
-          alert("Logeado");
+          //console.log(response.data.jwt);
+          localStorage.setItem('weatherAPP', response.data.jwt);
+          
+          //alert("Logeado");
         }else{
           
         }
